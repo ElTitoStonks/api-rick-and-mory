@@ -1,25 +1,18 @@
 
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import './App.css'
 import { GetCharter } from './Components/GetCharter'
 import { useParser } from './hooks/useParser'
 
-function useCharter() {
-  const [charter, setCharter] = useState('')
-
-  return { setCharter, charter }
-}
 
 function App() {
-  const { resultados } = useParser()
-  const { setCharter, charter } = useCharter()
+  const { resultados, getCharter } = useParser()
+  const [charter, setCharter] = useState('') 
 
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
-    console.log(charter)
-  }
+    getCharter(charter)
+  }, [charter, getCharter])
 
   const handleCharter = (e) => {
     setCharter(e.target.value)
